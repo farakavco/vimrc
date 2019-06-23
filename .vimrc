@@ -1,14 +1,19 @@
-set nocompatible              " required
-set encoding=utf-8
-set nowrap
-set number
-set hlsearch
-syntax on
-color dracula
-filetype off                  " required
+
+set nocompatible              
+" required 
+set encoding=utf-8 
+set nowrap 
+set number 
+set hlsearch 
+syntax on 
+color dracula 
+filetype off                  
+" required
 " Specify a directory for plugins
-"
 call plug#begin('~/.vim/plugged')
+Plug 'Chiel92/vim-autoformat'
+Plug 'OrangeT/vim-csharp'
+Plug 'leafgarland/typescript-vim'
 Plug 'python-mode/python-mode'
 Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'tmhedberg/SimpylFold'
@@ -25,15 +30,31 @@ Plug 'plasticboy/vim-markdown'
 Plug 'mgedmin/coverage-highlight.vim'
 Plug 'vim-scripts/mako.vim'
 Plug 'vim-scripts/vim-auto-save'
+Plug 'wavded/vim-stylus'
 Plug 'itchyny/lightline.vim'
-" Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 " Front-end related plugins:
 Plug 'posva/vim-vue'
 Plug 'mattn/emmet-vim'
 " Android related plugins:
 Plug 'wincent/command-t' 
+Plug 'terryma/vim-multiple-cursors'
 Plug 'hsanson/vim-android'
+Plug 'ap/vim-css-color'
+Plug 'JulesWang/css.vim'
+Plug 'dgraham/vim-eslint'
+Plug 'Valloric/YouCompleteMe'
+Plug 'wincent/command-t'
+Plug 'pangloss/vim-javascript'
+Plug 'scrooloose/nerdcommenter'
+Plug 'yuttie/comfortable-motion.vim'
 call plug#end()
+set cursorline
+" hi CursorLine <guibg></guibg>00000 ctermbg=0 gui=none
+set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
+map \ :NERDTreeToggle<cr>
+
+""
 filetype plugin indent on    " required
 " Using system's clipboard
 set clipboard=unnamed
@@ -52,7 +73,6 @@ nnoremap <C-H> <C-W><C-H>
 set foldmethod=indent
 set foldlevel=79
 set colorcolumn=79
-
 
 " Enable folding with the space bar
 nnoremap <space> za
@@ -76,7 +96,7 @@ au BufNewFile,BufRead *.py
     \ setlocal fileformat=unix
 
 " js, css , HTML
-au BufNewFile,BufRead *.js,*.html,*.css,*.vue
+au BufNewFile,BufRead *.js,*.json,*.html,*.css,*.styl,*.scss,*.ts,*.cshtml,*.vue
     \ setlocal tabstop=2 |
     \ setlocal softtabstop=2 |
     \ setlocal shiftwidth=2 |
@@ -103,10 +123,11 @@ au BufRead,BufNewFile *.md,*.txt,*.rst
     \ setlocal textwidth=79 |
     \ setlocal expandtab |
     \ setlocal autoindent |
-    \ setlocal fileformat=unix
+"    \ setlocal fileformat=unix
 
 " YouCompleteMe
-let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 "map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ignore files in NERDTree
@@ -115,7 +136,6 @@ set runtimepath+=~/.vim/bundle/nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if !argc() | NERDTree | endif
 let g:NERDTreeShowIgnoredStatus = 1
-
 
 " set shellcmdflag=-ic
 let $BASH_ENV = "~/.bash_aliases"
@@ -176,6 +196,7 @@ let g:pymode_rope_lookup_project = 0
 let g:pymode_rope_complete_on_dot = 0
 let g:pymode_rope_autoimport = 1
 let g:pymode_rope_rename_bind = '<C-c>rr'
+let g:user_emmet_expandabbr_key = '<tab>'
 
 set completeopt=longest,menuone
 let ropevim_vim_completion=1
@@ -197,11 +218,11 @@ autocmd FileType python nnoremap <buffer> <F7> :write<cr> :exec '!pytest'<cr>
 noremap <F10> :write<cr> :exec '!coverage run --source $(python -c "from setuptools import find_packages; print(find_packages()[0])") $(which nosetests)'<cr>
 
 " autocmd FileType python,*.pyx nnoremap <Leader>B :exec '!python setup.py build_ext --force --inplace --define=CYTHON_TRACE'<cr>
-nnoremap <Leader>B  :write<cr> :exec '!python setup.py build_ext --force --inplace --define=CYTHON_TRACE'<cr>
-nnoremap <Leader>m  :write<cr> :exec '!make'<cr>
-nnoremap <Leader>f  :write<cr> :exec '!make flash'<cr>
+" nnoremap <Leader>B  :write<cr> :exec '!python setup.py build_ext --force --inplace --define=CYTHON_TRACE'<cr>
+" nnoremap <Leader>m  :write<cr> :exec '!make'<cr>
+" nnoremap <Leader>f  :write<cr> :exec '!make flash'<cr>
 
-let g:auto_save = 1  " enable AutoSave on Vim startup
+" let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 autocmd InsertLeave * write
@@ -223,10 +244,10 @@ set encoding=UTF-8
 set guifont=<FONT_NAME>:h<FONT_SIZE>
 set guifont=DroidSansMono\ Nerd\ Font:h11
 nnoremap ss i<space><esc>
+nnoremap cc <Leader>ci
+map cc <Plug>NERDCommenterToggle
 imap jj <Esc>
 xnoremap p pgvy
-
-# configs of CtrlP plugin to bind ctrl+p and ignore some folders
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+set cursorline
+nnoremap cc <Leader>ci
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,node_modules,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/node_modules/*,*/.DS_Store,*/vendor
