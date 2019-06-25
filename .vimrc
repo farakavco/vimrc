@@ -6,11 +6,23 @@ set nowrap
 set number 
 set hlsearch 
 syntax on 
-color dracula 
+
+
+" Install theme docs
+" cd ~/.vim/colors
+" wget https://raw.githubusercontent.com/aonemd/kuroi.vim/master/colors/kuroi.vim
+set background=dark
+color kuroi
+
+" Install theme docs
+" https://draculatheme.com/vim/
+" color dracula
+
 filetype off                  
 " required
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
+Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
 Plug 'OrangeT/vim-csharp'
 Plug 'leafgarland/typescript-vim'
@@ -51,7 +63,7 @@ Plug 'yuttie/comfortable-motion.vim'
 call plug#end()
 set cursorline
 " hi CursorLine <guibg></guibg>00000 ctermbg=0 gui=none
-set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
+" set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
 map \ :NERDTreeToggle<cr>
 
 ""
@@ -65,7 +77,7 @@ set nospell
 set splitbelow
 set splitright
 nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
@@ -124,11 +136,6 @@ au BufRead,BufNewFile *.md,*.txt,*.rst
     \ setlocal expandtab |
     \ setlocal autoindent |
 "    \ setlocal fileformat=unix
-
-" YouCompleteMe
-" let g:ycm_autoclose_preview_window_after_completion=1
-" let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-"map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ignore files in NERDTree
 let NERDTreeIgnore=['\.pyc$', '\~$', '^__pycache__$', '\.egg-info$', '^build$', '^dist$', '\.so$', '\.o$'] 
@@ -197,6 +204,7 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_rope_autoimport = 1
 let g:pymode_rope_rename_bind = '<C-c>rr'
 let g:user_emmet_expandabbr_key = '<tab>'
+" let g:user_emmet_mode='a'
 
 set completeopt=longest,menuone
 let ropevim_vim_completion=1
@@ -239,15 +247,47 @@ nnoremap <Leader><Space> :nohlsearch<Bar>:echo<CR>
 
 " Using local config. Uncomment line below. 
 " source ~/.vimrc-local
-let g:user_emmet_mode='a'
 set encoding=UTF-8
-set guifont=<FONT_NAME>:h<FONT_SIZE>
-set guifont=DroidSansMono\ Nerd\ Font:h11
+"set guifont=<FONT_NAME>:h<FONT_SIZE>
+set guifont=DroidSansMono\ 10
 nnoremap ss i<space><esc>
-nnoremap cc <Leader>ci
-map cc <Plug>NERDCommenterToggle
+" nnoremap cc <Leader>ci
+" map cc <Plug>NERDCommenterToggle
 imap jj <Esc>
 xnoremap p pgvy
 set cursorline
-nnoremap cc <Leader>ci
+" nnoremap cc <Leader>ci
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,node_modules,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/node_modules/*,*/.DS_Store,*/vendor
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹ ",
+    \ "Staged"    : "✚ ",
+    \ "Untracked" : "✭ ",
+    \ "Renamed"   : "➜ ",
+    \ "Unmerged"  : "═ ",
+    \ "Deleted"   : "✖ ",
+    \ "Dirty"     : "☂ ",
+    \ "Clean"     : "✔︎ ",
+    \ 'Ignored'   : "♣ ",
+    \ "Unknown"   : "? "
+    \ }
+
+" https://github.com/w0rp/ale#usage-fixing
+let g:ale_fixers = ['eslint']
+let g:ale_fix_on_save = 0
+let g:ale_sign_error = '✖ '
+let g:ale_sign_warning = '☂'
+let g:ale_linter_aliases = {'vue': ['css', 'eslint', 'vue']}
+let g:ale_linters = {'vue': ['stylelint', 'eslint', 'vue']}
+highlight clear ALEWarningSign
+let g:ale_set_highlights = 0
+highlight ALEWarning ctermbg=DarkMagenta
+augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+augroup END
+
