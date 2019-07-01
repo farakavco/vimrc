@@ -18,6 +18,9 @@ color kuroi
 " https://draculatheme.com/vim/
 " color dracula
 
+" fix cursor highlighting when it's on bracket or parentheses ... 
+hi MatchParen cterm=bold ctermbg=none ctermfg=red
+
 filetype off                  
 " required
 " Specify a directory for plugins
