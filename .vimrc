@@ -1,73 +1,59 @@
-
 set nocompatible              
-" required 
 set encoding=utf-8 
 set nowrap 
 set number 
 set hlsearch 
 syntax on 
-
-
 " Install theme docs
 " cd ~/.vim/colors
 " wget https://raw.githubusercontent.com/aonemd/kuroi.vim/master/colors/kuroi.vim
 set background=dark
+set encoding=UTF-8
+set guifont=DroidSansMono\ 10
+set t_Co=256
 color kuroi
-
 " Install theme docs
 " https://draculatheme.com/vim/
 " color dracula
-
 filetype off                  
-" required
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
-Plug 'w0rp/ale'
-Plug 'Chiel92/vim-autoformat'
-Plug 'OrangeT/vim-csharp'
-Plug 'leafgarland/typescript-vim'
-Plug 'python-mode/python-mode'
-Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'tmhedberg/SimpylFold'
-Plug 'vim-scripts/indentpython.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'kien/ctrlp.vim'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'python-rope/ropevim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdcommenter'
+Plug 'w0rp/ale'
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'mgedmin/coverage-highlight.vim'
-Plug 'vim-scripts/mako.vim'
-Plug 'vim-scripts/vim-auto-save'
-Plug 'wavded/vim-stylus'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
-" Front-end related plugins:
 Plug 'posva/vim-vue'
-Plug 'mattn/emmet-vim'
-" Android related plugins:
-Plug 'wincent/command-t' 
-Plug 'terryma/vim-multiple-cursors'
-Plug 'hsanson/vim-android'
+Plug 'wavded/vim-stylus'
 Plug 'ap/vim-css-color'
-Plug 'JulesWang/css.vim'
-Plug 'dgraham/vim-eslint'
-Plug 'Valloric/YouCompleteMe'
-Plug 'wincent/command-t'
+Plug 'OrangeT/vim-csharp'
+Plug 'leafgarland/typescript-vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
-Plug 'scrooloose/nerdcommenter'
+Plug 'vim-scripts/mako.vim'
 Plug 'yuttie/comfortable-motion.vim'
+"*Plug 'dgraham/vim-eslint'
+"*Plug 'Chiel92/vim-autoformat'
+"*Plug 'python-mode/python-mode'
+"*Plug 'dracula/vim', { 'as': 'dracula' }
+"*Plug 'vim-scripts/indentpython.vim'
+"*Plug 'python-rope/ropevim'
+"*Plug 'mgedmin/coverage-highlight.vim'
+"*Plug 'wincent/command-t' 
+"*Plug 'terryma/vim-multiple-cursors'
+"*Plug 'hsanson/vim-android'
+"*Plug 'JulesWang/css.vim'
+"*Plug 'wincent/command-t'
 call plug#end()
 set cursorline
-" hi CursorLine <guibg></guibg>00000 ctermbg=0 gui=none
-" set guifont=Meslo\ LG\ M\ Regular\ for\ Powerline:h11
-map \ :NERDTreeToggle<cr>
-
-""
-filetype plugin indent on    " required
+let $BASH_ENV = "~/.bash_aliases"
+filetype plugin indent on
 " Using system's clipboard
 set clipboard=unnamed
 " Spell checking
@@ -76,19 +62,10 @@ set nospell
 " split and navigation
 set splitbelow
 set splitright
-nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 " Enable folding
 set foldmethod=indent
 set foldlevel=79
 set colorcolumn=79
-
-" Enable folding with the space bar
-nnoremap <space> za
-
 set textwidth=79
 set tabstop=4
 set softtabstop=4
@@ -97,6 +74,8 @@ set cindent
 set noexpandtab
 set shiftwidth=4   
  
+" Indents
+" -----------------------------------------------------------------
 " PEP8
 au BufNewFile,BufRead *.py  
     \ setlocal tabstop=4 |
@@ -137,16 +116,8 @@ au BufRead,BufNewFile *.md,*.txt,*.rst
     \ setlocal autoindent |
 "    \ setlocal fileformat=unix
 
-" ignore files in NERDTree
-let NERDTreeIgnore=['\.pyc$', '\~$', '^__pycache__$', '\.egg-info$', '^build$', '^dist$', '\.so$', '\.o$'] 
-set runtimepath+=~/.vim/bundle/nerdtree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if !argc() | NERDTree | endif
-let g:NERDTreeShowIgnoredStatus = 1
-
-" set shellcmdflag=-ic
-let $BASH_ENV = "~/.bash_aliases"
-
+" Python
+" -----------------------------------------------------------------
 fun! NoseTestCurrentScope()
     " Find function under cursor
     let l:scope = ""
@@ -172,10 +143,6 @@ augroup python_test
     autocmd!
     autocmd Filetype python nnoremap <Leader>t :call NoseTestCurrentScope()<CR>
 augroup end
-
-
-
-
 " python-mode
 " let g:pymode_virtualenv = 1
 " let g:pymode_virtualenv_path = $VIRTUAL_ENV
@@ -212,9 +179,6 @@ let ropevim_extended_complete=1
 map <C-]> <C-C>g
 map <Leader>i <C-c>ro
 
-" Bash aliases
-let $BASH_ENV = "~/.bash_aliases"
-
 " Python code comment
 vnoremap <silent> # :s/^/#/<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
@@ -229,40 +193,52 @@ noremap <F10> :write<cr> :exec '!coverage run --source $(python -c "from setupto
 " nnoremap <Leader>B  :write<cr> :exec '!python setup.py build_ext --force --inplace --define=CYTHON_TRACE'<cr>
 " nnoremap <Leader>m  :write<cr> :exec '!make'<cr>
 " nnoremap <Leader>f  :write<cr> :exec '!make flash'<cr>
-
 " let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-autocmd InsertLeave * write
-
-set t_Co=256
-
-nmap oo o<Esc>k
 
 " Added sopport for HTML (and other languages) matching tags with %
 runtime macros/matchit.vim
 
-" Press Leader+Space to turn off highlighting and clear any message already displayed.
-nnoremap <Leader><Space> :nohlsearch<Bar>:echo<CR>
+" NERD Tree
+" -----------------------------------------------------------------
+" ignore files in NERDTree
+let NERDTreeIgnore=['node_modules', 'backstop_data', '\.pyc$', '\~$', '^__pycache__$', '\.egg-info$', '^build$', '^dist$', '\.so$', '\.o$'] 
+set runtimepath+=~/.vim/bundle/nerdtree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if !argc() | NERDTree | endif
+let g:NERDTreeShowIgnoredStatus = 1
 
-" Using local config. Uncomment line below. 
-" source ~/.vimrc-local
-set encoding=UTF-8
-"set guifont=<FONT_NAME>:h<FONT_SIZE>
-set guifont=DroidSansMono\ 10
-nnoremap ss i<space><esc>
-" nnoremap cc <Leader>ci
-" map cc <Plug>NERDCommenterToggle
-imap jj <Esc>
-xnoremap p pgvy
-set cursorline
-" nnoremap cc <Leader>ci
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,node_modules,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/node_modules/*,*/.DS_Store,*/vendor
+" MISC
+" -----------------------------------------------------------------
 augroup myvimrc
     au!
     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
 
+" Map Keys
+" -----------------------------------------------------------------
+imap jj <Esc>
+xnoremap p pgvy
+map cc <Plug>NERDCommenterToggle
+nmap oo o<Esc>k
+" Press Leader+Space to turn off highlighting and clear any message already displayed.
+nnoremap <Leader><Space> :nohlsearch<Bar>:echo<CR>
+map \ :NERDTreeToggle<cr>
+" Enable folding with the space bar
+nnoremap <space> za
+nnoremap ss i<space><esc>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Wild ignore
+" -----------------------------------------------------------------
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,node_modules,*/.git/*,*/.hg/*,*/.svn/*,*/.idea/*,*/node_modules/*,*/.DS_Store,*/vendor,*/dist/*
+
+" Icons
+" -----------------------------------------------------------------
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹ ",
     \ "Staged"    : "✚ ",
@@ -277,6 +253,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 
 " https://github.com/w0rp/ale#usage-fixing
+" -----------------------------------------------------------------
 let g:ale_fixers = ['eslint']
 let g:ale_fix_on_save = 0
 let g:ale_sign_error = '✖ '
@@ -290,4 +267,3 @@ augroup FiletypeGroup
     autocmd!
     au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 augroup END
-
